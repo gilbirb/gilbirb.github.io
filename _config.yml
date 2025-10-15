@@ -1,3 +1,21 @@
-theme: jekyll-theme-minimal
-title: Gilbert's homepage
-description: Bren bren bren bren bren
+title: My Uni Notes
+description: Course notes and references
+remote_theme: just-the-docs/just-the-docs
+search_enabled: true
+
+# Only set baseurl for a project site (not for YOUR-USERNAME.github.io)
+# baseurl: "/notes"
+
+# Optional: pretty permalinks
+permalink: pretty
+
+# Enable callouts like > Note: ...
+just_the_docs:
+  callouts_level: quiet
+  callouts:
+    note:
+      title: Note
+      color: blue
+    warning:
+      title: Warning
+      color: yellow
