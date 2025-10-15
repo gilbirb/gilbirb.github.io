@@ -1,0 +1,41 @@
+.wrapper {
+    display: flex;
+    margin-top: 30px;
+}
+
+.course-sidebar {
+    width: 250px;
+    padding-right: 30px;
+    position: sticky;
+    top: 30px;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+}
+
+.course-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.toc {
+    font-size: 14px;
+}
+
+.toc ul {
+    list-style-type: none;
+    padding-left: 15px;
+}
+
+.toc li {
+    margin: 8px 0;
+}
+
+.toc a {
+    color: #333;
+    text-decoration: none;
+}
+
+.toc a:hover {
+    color: #0366d6;
+    text-decoration: underline;
+}
