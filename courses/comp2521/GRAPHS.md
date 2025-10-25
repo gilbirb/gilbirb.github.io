@@ -1,7 +1,7 @@
 ---
 layout: course
-title: COMP2521
-permalink: /courses/comp2521/
+title: COMP2521 - Graphs
+permalink: /courses/comp2521/graphs
 toc: false
 ---
 
