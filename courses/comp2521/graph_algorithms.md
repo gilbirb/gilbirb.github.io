@@ -91,3 +91,128 @@ Strongly connected components:
 ## **Dijkstra's Algorithm**
 
 Dijkstra's algorithm finds the **shortest path** in a **weighed graph** with non-negative weights
+
+```
+dijkstraSSSP(G, src):
+    Input: graph G, source vertex src
+
+    create dist array, initialised to inf
+    create a pred array, initialised to -1
+    create vSet containing all vertices of G
+
+    dist[src] = 0
+    while vSet is not empty:
+        find vertex  v in vSet such that dist[v] is minimal
+        remove v from vSet
+        for each edge (v, w, weight) in G:
+            if dist[v] + weight < dist[w]:
+                dist[w] = dist[v] + weight
+                pred[w] = v
+```
+
+The shortest path from the source vertex to any other vertex
+can be constructed by tracing backwards through the predecessor array
+(like for BFS)
+
+The set of vertices can be implemented in different ways:
+1. Visited array
+2. Explicit array/list of vertices
+3. Priority queue
+
+Visited array implementation:
+* Similar to visited array in BFS/DFS
+* Array of $V$ booleans, initialised to false
+* After exploring vertex $v$, set $visited[v]$ to true
+* At the start of each iteration, find vertex $v$ such that $visited[v]$ is false and $dist[v]$ is minimal $\Rightarrow O(V)$
+
+Array/list of vertices implementation:
+* Store all vertices in an array/linked list
+* After exploring vertex $v$, remove $v$ from array/linked list
+* At the start of each iteration, find vertex in array/list such that dist[v] is minimal $\Rightarrow O(V)$
+
+Priority queue implementation:
+* Use priority queue to store vertices, use distance to vertex as priority (smaller distance = higher priority)
+* A priority queue implementation has $O(\log n)$ insert and delete
+
+Analysis:
+* Boolean array & Array/list of vertices $\Rightarrow O(V^2)$
+* Priority queue $\Rightarrow O(E + V \log V)$
+
+Other shortest path algorithms:
+* Floyd-Warshall Algorithm
+  * All-pairs shortest path
+  * Works for graphs with negative weights
+* Bellman-Ford Algorithm
+  * Single-source shortest path
+  * Works for graphs with negative weights
+  * Can detect negative cycles
+
+## **Minimum Spanning Trees**
+
+A **spanning tree** of an undirected graph $G$ is a subgraph of $G$ that contains all vertices of $G$,
+that is connected and contains no cycles
+
+A **minimum spanning tree** of an undirected weighted graph $G$ is a spanning tree of $G$ that has
+minimum total edge weight among all spanning trees of $G$
+
+## **Kruskal's Algorithm**
+
+Algorithm:
+1. Start with an empty graph
+    * With same vertices as original graph
+2. Consider edges in increasing weight order
+    * Add if it does not form a cycle in the MST
+3. Repeat until $V-1$ edges have been added
+
+```
+kruskalMst(G):
+    Input: graph G with V vertices
+    Output: minimum spanning tree of G
+
+    mst = empty graph with V vertices
+    sortedEdges = sort edges of G by weight
+
+    for each edge (v, w, weight) in sortedEdges:
+        if there is no path between v and w in mst:
+            add edge (v, w, weight) to mst
+
+        if mst has V - 1 edges:
+            return mst
+
+    no mst
+```
+
+Time complexity: $O(E \log V)$
+
+## **Prim's Algorithm**
+
+Algorithm:
+1. Start with an empty graph
+2. Start from any vertex, add it to the MST
+3. Choose cheapest edge s-t such that:
+    * s has not been added to the MST, and
+    * t has not been added to the MST
+   and add this edge and the vertex t to the MST
+4. Repeat previous step until V - 1 edges have been added
+    * Or until all vertices have been added
+
+```
+primMst(G):
+	Input:  graph G with V vertices
+	Output: minimum spanning tree of G
+
+	mst = empty graph with V vertices
+	usedV = {0}
+	unusedE = edges of G
+	while |usedV| < V :
+		find cheapest edge e (s, t, weight) in unusedE such that
+			s in usedV and t not in usedV
+
+		add e to mst
+		add t to usedV
+		remove e from unusedE
+
+	return mst
+```
+
+Time complexity: $O(E + V \log V)$ (with Fibonacci heap)
