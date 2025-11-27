@@ -248,8 +248,10 @@ On the other hand, merge sort is readily stable, readily parallel, a good choice
 <img src="/assets/images/comp2521/dncsortsummary.png" alt="Divide and Conquer Summary" width="100%"/>
 
 ## **Non-Comparison-Based Sorting Algorithms**
+***
 
 ### **Radix Sort**
+***
 
 Radix sort requires us to be able to decompose our keys into individual symbols
 (digits, characters, bits, etc.), for example:
