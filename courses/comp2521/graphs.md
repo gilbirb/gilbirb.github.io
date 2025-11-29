@@ -351,7 +351,7 @@ This graph has three distinct cycles:
 Idea to check cycles in a graph:
 
 * Perform a DFS, starting from any vertex
-* Keep track of the previous vertex during BFS (to ensure length > 2)
+* Keep track of the previous vertex during DFS (to ensure length > 2)
 * During the DFS, if the current vertex has an edge to an already-visited vertex, 
 which is not the previous vertex, then there is a cycle
 * After the DFS, if any vertex has not yet been visited, perform another DFS,

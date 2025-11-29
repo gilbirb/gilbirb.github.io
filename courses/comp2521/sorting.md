@@ -156,9 +156,9 @@ Partitioning:
 * Create index l to start of array (lo + 1)
 * Create index r to end of array (hi)
 * Until l and r meet:
-* Increment l until a[l] is greater than pivot
-* Decrement r until a[r] is less than pivot
-* Swap items at indices l and r
+  * Increment l until a[l] is greater than pivot
+  * Decrement r until a[r] is less than pivot
+  * Swap items at indices l and r
 * Swap the pivot with index l or l - 1 (depending on the item at index l)
 
 Partitioning is $O(n)$, where n is the number of elements being
@@ -278,14 +278,14 @@ Example:
 <img src="/assets/images/comp2521/radixsortexample.png" alt="Radix sort example" width="100%"/>
 
 Analysis:
-* Array contains n keys
-* Each key contains m symbols
-* Radix sort uses R buckets
+* Array contains $n$ keys
+* Each key contains $m$ symbols
+* Radix sort uses $R$ buckets
 * A single stable sort runs in time $O(n + R)$
-* Radix sort uses stable sort m times
+* Radix sort uses stable sort $m$ times
 
 Time complexity (best = average = worst) for radix sort is $O(m(n + R))$.
-* ≈ $O(mn)$, assuming R is small
+* ≈ $O(mn)$, assuming $R$ is small
 
 Radix sort performs better than comparison-based sorting algorithms:
 * When keys are short (i.e., m is small) and arrays are large (i.e., n is large)
