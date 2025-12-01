@@ -257,3 +257,202 @@ struct node {
     int size;
 };
 ```
+
+## **Balancing Methods**
+***
+
+### **Global Rebalancing**
+***
+
+Completely rebalance whole tree so it is size-balanced
+
+Method:
+* Lift the median node to the root by partitioning on index size(t)/2
+* rebalance both subtrees (recursively)
+
+```
+rebalance(t):
+  Input: tree t
+  Output: rebalanced t
+
+  if size(t) < 3:
+    return t
+
+  t = partition(t, size(t) / 2)
+  t->left = rebalance(t->left)
+  t->right = rebalance(t->right)
+  return t
+```
+
+Worst-case time complexity: $O(n \log n)$
+* Assume nodes store the size of their subtrees
+* First step: partition entire tree on index $n/2$
+  * This takes at most $n$ recursive calls, $n$ rotations ⇒ $n$ steps
+  * Result is two subtrees of size ≈ $n/2$
+* Then partition both subtrees
+  * Partitioning these subtrees takes $n/2$ steps each ⇒ $n$ steps in total
+  * Result is four subtrees of size ≈ $n/4$
+* …and so on…
+* About $\log_2 n$ levels of partitioning in total, each requiring $n$ steps
+⇒ $O(n \log n)$
+
+Periodic Rebalancing:
+```
+bstInsert(t, v):
+  Input: tree t, value v
+  Output: t with v inserted
+
+  t = insertAtLeaf(t, v)
+
+  if size(t) mod k = 0:
+    t = rebalance(t)
+  
+  return t
+```
+
+* Good if tree is not modified very often
+* Otherwise…
+  * Insertion will be slow occasionally due to rebalancing
+  * Performance will gradually degrade until next rebalance
+
+### **Local Rebalancing**
+***
+
+Perform small, efficient, localised operations in an attempt to improve the overall balance of the tree
+
+**Root Insertion**
+
+Insert new value normally (at the leaf) and then rotate the new node up to the root.
+
+```
+insertAtRoot(t, v):
+  Input: tree t, value v
+  Output: t with v inserted at the root
+
+  if t is empty:
+    return new node containing v
+  else if v < t->item:
+    t->left = insertAtRoot(t->left, v)
+    t = rotateRight(t)
+  else if v > t->item:
+    t->right = insertAtRoot(t->right, v)
+    t = rotateLeft(t)
+
+  return t
+```
+
+Analysis:
+* Same time complexity as normal insertion: $O(h)$
+* Tree is more likely to be balanced, but no guarantee
+* Root insertion ensures recently inserted items are close to the root
+  * Useful for applications where recently added items are more likely to be
+  searched
+* Major problem: ascending-ordered and descending-ordered data is still
+a worst case for root insertion
+
+**Randomised Insertion**
+
+Introduce some randomness into insertion algorithm:
+* Randomly choose whether to insert normally or insert at root
+
+```
+insertRandom(t, v):
+  Input: tree t, value v
+  Output: t with v inserted
+  if t is empty:
+    return new node containing v
+
+  // p/q chance of inserting at root
+  if random() mod q < p:
+    return insertAtRoot(t, v)
+  else:
+    return insertAtLeaf(t, v)
+```
+
+Randomised insertion creates similar results to
+inserting items in random order.
+
+Tree is more likely to be balanced (but no guarantee)
+
+**Summary**
+
+<img src="/assets/images/comp2521/balancingsummary.png" alt="Balancing Summary" width="100%" style="display:block;margin:1rem auto;"/>
+
+## **AVL Trees**
+***
+
+Method:
+* Insert item recursively
+* Check balance at each node along the insertion path in reverse
+  * i.e., from bottom to top
+* Fix imbalances as they are found
+
+Since AVL trees are always height-balanced, the height of an AVL tree is guaranteed to be at most $\log n$
+
+### **Insertion**
+***
+
+Insertion process:
+1. if the tree is empty:
+  * return new node
+2. insert recursively
+3. check (and fix) balance
+4. return root of updated tree
+
+There are 4 rebalancing cases:
+1. Left Left
+  * bal(t) > 1 and bal(t->left) >= 0
+  * Rotate right at t
+2. Left Right
+  * bal(t) > 1 and bal(t->left) < 0
+  * Rotate left at t->left, then rotate right at t
+3. Right Left
+  * bal(t) < -1 and bal(t->right) > 0
+  * Rotate right at t->right, then rotate left at t
+4. Right Right
+  * bal(t) < -1 and bal(t->right) <= 0
+  * Rotate left at t
+
+Analysis:
+* Height of an AVL tree is $O(\log n)$
+* In the worst case, length of insertion path is $O(\log n)$
+* Have to maintain height data and check/fix balance at each node on
+insertion path
+  * This is $O(1)$ per node
+* Therefore, worst-case time complexity of AVL tree insertion is $O(\log n)$
+
+### **Search**
+***
+
+Exactly the same as for regular BSTs.
+
+Worst-case time complexity is $O(\log n)$,
+since AVL trees are height-balanced.
+
+### **Deletion**
+***
+
+Method:
+* Delete item recursively
+* Check balance at each node along the deletion path∗
+in reverse
+* Fix imbalances as they are found
+
+Analysis:
+* Height of an AVL tree is $O(\log n)$
+* In the worst case, length of deletion path is $O(\log n)$
+* Have to maintain height data and check/fix balance at each node on
+deletion path
+  * This is $O(1)$ per node
+* Therefore, worst-case time complexity of AVL tree deletion is $O(\log n)$
+
+### **Summary**
+***
+
+AVL trees are always height-balanced
+* This means the height of an AVL tree is $O(\log n)$
+* Rotations are used to fix imbalances during insertion and deletion
+* Balance is checked efficiently by storing height data in each node, which
+needs to be maintained
+* Worst-case time complexity of $O(\log n)$ for insertion, search and deletion
+* Can be used to implent a set ADT efficiently with contains, insert, delete at $O(\log n)$
