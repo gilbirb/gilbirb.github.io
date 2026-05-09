@@ -1,0 +1,47 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Gilbert Sebastian Yogiana',
+  description = 'Student portfolio',
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+
+    <header class="px-6 py-4 flex items-center justify-between max-w-5xl mx-auto w-full">
+      <a href="/" class="font-semibold text-lg hover:underline no-underline">
+        Home
+      </a>
+      <nav class="flex gap-6 text-sm text-zinc-800">
+        <a href="/courses" class="hover:underline no-underline">Courses</a>
+        <a href="/about" class="hover:underline no-underline">About</a>
+        <a href="/contact" class="hover:underline no-underline">Contact</a>
+      </nav>
+    </header>
+
+    <div class="border border-zinc-300 border-solid mx-60"/>
+
+    <main class="flex-1 px-6 max-w-5xl mx-auto w-full py-16">
+      <slot />
+    </main>
+
+    <footer class="px-6 py-6 text-center text-sm text-zinc-500 max-w-5xl mx-auto w-full">
+      © {new Date().getFullYear()} Gilbert Sebastian Yogiana
+    </footer>
+
+  </body>
+</html>
