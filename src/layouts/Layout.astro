@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ThemeIcon from '../components/ThemeIcon.astro';
 
 interface Props {
   title?: string;
@@ -19,24 +20,38 @@ const {
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      const theme = (() => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          return 'dark';
+        }
+        return 'light';
+      })();
+      document.documentElement.classList.toggle('dark', theme === 'dark');
+      window.localStorage.setItem('theme', theme);
+    </script>
   </head>
-  <body class="min-h-screen flex flex-col w-screen overflow-x-hidden">
+  <body class="min-h-screen flex flex-col w-screen overflow-x-hidden dark:bg-[#1c1b1a]">
 
     <header class="px-6 py-4 flex items-center justify-between max-w-5xl mx-auto w-full">
-      <a href="/" class="font-semibold text-lg hover:underline no-underline">
+      <a href="/" class="font-semibold text-lg dark:text-zinc-100 text-hover:underline no-underline">
         Home
       </a>
       <nav class="flex gap-6 text-sm text-zinc-800">
-        <a href="/courses" class="hover:underline no-underline">Courses</a>
-        <a href="/about" class="hover:underline no-underline">About</a>
-        <a href="/contact" class="hover:underline no-underline">Contact</a>
+        <ThemeIcon/>
+        <a href="/courses" class="hover:underline no-underline dark:text-zinc-400">Courses</a>
+        <a href="/about" class="hover:underline no-underline dark:text-zinc-400">About</a>
+        <a href="/contact" class="hover:underline no-underline dark:text-zinc-400">Contact</a>
       </nav>
     </header>
 
     <div class="border border-zinc-300 border-solid mx-60"/>
 
     <main class="flex-1 px-6 max-w-5xl mx-auto w-full py-16">
-      <article class="prose prose-lg prose-zinc max-w-none prose-p:leading-7 prose-p:my-3 prose-headings:mt-6 prose-headings:mb-2 prose-li:my-1 prose-ul:my-3">
+      <article class="prose prose-lg dark:prose-invert prose-zinc max-w-none prose-p:leading-7 prose-p:my-3 prose-headings:mt-6 prose-headings:mb-2 prose-li:my-1 prose-ul:my-3">
         <slot />
     </article>
     </main>
