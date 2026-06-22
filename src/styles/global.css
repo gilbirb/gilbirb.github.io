@@ -5,6 +5,17 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Smooth dark/light mode transitions instead of an instant flashbang */
+html,
+body,
+body * {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    fill 0.3s ease;
+}
+
 .dark .astro-code,
 .dark .astro-code span {
   color: var(--shiki-dark) !important;
