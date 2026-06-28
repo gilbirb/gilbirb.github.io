@@ -23,6 +23,7 @@ I made this mostly for my study notes as i was too lazy to learn notion so i too
   - `COMP2511` - Object-Oriented Design & Patterns
   - `COMP2521` - Data Structures & Algorithms
   - `COMP3231` - Operating Systems
+  - `COMP6771` - Advanced C++ Programming
 
 ## Running Locally
 
