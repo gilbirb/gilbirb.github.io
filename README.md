@@ -24,6 +24,7 @@ I made this mostly for my study notes as i was too lazy to learn notion so i too
   - `COMP2521` - Data Structures & Algorithms
   - `COMP3231` - Operating Systems
   - `COMP6771` - Advanced C++ Programming
+  - `COMP6991` - Solving Modern Programming Problems with Rust
 
 ## Running Locally
 
