@@ -171,4 +171,4 @@ Rust gives you a fast, compile-time-resolved default (generics), and an explicit
 | `PartialEq` / `Eq` | `==` comparison |
 | `PartialOrd` / `Ord` | `<`, `>`, sorting |
 | `Iterator` | `next()` and the whole adaptor chain |
-| `Default` | `T::default()` — a sensible zero-value |
+| `Default` | `T::default()`: a sensible default value |
