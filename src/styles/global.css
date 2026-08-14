@@ -16,6 +16,29 @@ body * {
     fill 0.3s ease;
 }
 
+/* Inline `code` — boxed chip instead of Tailwind Typography's backticks */
+.prose :not(pre) > code {
+  background-color: #f0eee6;
+  color: #3d3a34;
+  border: 1px solid #e3e0d6;
+  border-radius: 0.3rem;
+  padding: 0.15em 0.35em;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.dark .prose :not(pre) > code {
+  background-color: #2a2927;
+  color: #e6e3dc;
+  border-color: #3a3936;
+}
+
+/* Kill the ` ` quotes the typography plugin adds around inline code */
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
 .dark .astro-code,
 .dark .astro-code span {
   color: var(--shiki-dark) !important;
