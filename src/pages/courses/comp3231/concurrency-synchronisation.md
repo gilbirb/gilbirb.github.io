@@ -169,3 +169,156 @@ Modern processors provide other synchronisation operations:
 * **Compare-and-Swap** - check the contents of X is Y, and if so write Z.
 * **Load-Link / Store-Exclusive** - the store fails if the linked memory address has been accessed.
 * **Atomic Arithmetic** - e.g. atomic increment by 1.
+
+### **Tackling the Busy-Wait Problem**
+***
+
+In basic hardware locking (like a Test-and-Set spinlock), a thread continuously loops in CPU cycles checking if a lock is free. This wastes significant processor time.
+
+* **Sleep System Call**: Instead of continuously spinning, a user-level thread unable to acquire a lock can invoke sleep to block itself, yielding the CPU to other productive tasks until the lock becomes available.
+* **Wakeup System Call**: When the thread holding the lock finishes its critical section and releases the resource, it calls wakeup to notify and unblock the sleeping thread(s).
+* If a thread calls wakeup when no other threads are currently asleep, the call simply has no effect.
+
+## **The Producer-Consumer Problem**
+***
+
+* Also called the *bounded buffer* problem
+* A producer thread generates data items and places them into a shared, fixed-capacity buffer, 
+* A consumer thread retrieves and consumes those items.
+
+<img src="/assets/images/comp3231/produce-consume.png" alt="" width="80%" style="display:block;margin:1rem auto;"/>
+
+Producer
+* should sleep when the buffer is full,
+* and wakeup when there is empty space in the buffer
+    * The consumer can call wakeup when it consumes the first entry of the full buffer
+
+Consumer
+* should sleep when the buffer is empty 
+* and wake up when there are items available
+    *  Producer can call wakeup when it adds the first item to the buffer
+
+**Issues**
+* Both threads modifying the buffer simultaneously without mutual exclusion causes **race conditions**.
+* Concurrently modifying `count` leads to incorrect tracking.
+* If a context switch occurs after a thread checks the condition (e.g., `count == 0`) but before it actually calls `sleep()`, a wakeup sent by the other thread can be permanently lost, causing threads to block indefinitely.
+
+## **Semaphores**
+***
+
+Semaphores are an atomic, integer-based synchronization primitive designed by Edsger Dijkstra to manage resource access without busy-waiting.
+* **P()**: *proberen*, from Dutch to test. Also called **wait** or down.
+    * Decrements the count. If the resource is unavailable ($\text{count} \le 0$), the calling process is placed onto the wait queue and put to sleep.
+* **V()**: *verhogen*, from Dutch to increment. Also called **signal** or up.
+    * Increments the count. If any processes are sleeping on the queue, one is unblocked and resumed. If no processes are waiting, the signal is preserved by incrementing the count for future consumers (preventing lost wakeups).
+
+Both $P()$ and $V()$ execute **atomically** so condition checks and queue updates cannot be interleaved.
+
+### **Semaphore Implementation**
+
+Define a semaphore as a record
+```c
+typedef struct {
+ int count;
+ struct process *L; // A linked list (or queue) of process/thread descriptors representing tasks currently waiting for a resource.
+} semaphore;
+```
+
+Assume two simple operations:
+* **sleep** suspends the process that invokes it.
+* **wakeup(P)** resumes the execution of a blocked process P.
+
+Semaphore operations now defined as
+```c
+wait(S):
+while (S.count <= 0) {
+ add this process to S.L;
+ sleep;
+}
+S.count--;
+
+signal(S):
+S.count++;
+if (S.count <= 1) {
+ remove a process P from S.L;
+ wakeup(P);
+}
+
+```
+
+### **Key Applications**
+***
+* **Mutual Exclusion (Mutex)**: Initializing a semaphore to 1 restricts access to exactly one thread at a time ($N=1$), behaving as a standard lock (wait(mutex) $\rightarrow$ critical() $\rightarrow$ signal(mutex)).
+* **Bounded Buffer Coordination**: Solves the Producer-Consumer problem cleanly using three semaphores: mutex = 1 (mutual exclusion), empty = N (tracking empty slots), and full = 0 (tracking filled slots).
+
+While powerful, semaphores are low-level and prone to bugs. Omitting a signal, duplicate waits, or acquiring semaphores in the wrong order can easily cause deadlocks.
+
+## **Monitors**
+***
+
+* A higher-level synchronisation primitive construct proposed by Hoare (1974).
+* Is a programming language construct: A feature or building block defined directly by the grammar and runtime rules of a programming language, rather than provided as an external library or operating system function.
+
+It encapsulates shared variables, procedures, and data types into a module where the compiler automatically guarantees that only one thread can execute inside at any given time (such as synchronized methods in Java).
+
+## **Condition Variables**
+***
+
+Because monitors enforce mutual exclusion, threads still need a way to block and wait for specific application events (like a buffer becoming non-empty) without holding the monitor lock.
+* `wait(c)`: Suspends the calling thread and automatically releases the monitor lock so other threads can enter.
+* `signal(c)`: Resumes one suspended thread waiting on the condition variable. If no threads are waiting, the signal has no effect (unlike a semaphore count).
+
+## **Dining Philosophers Problem**
+***
+
+* 5 philosophers sit around a circular table alternating between thinking and eating.
+* There are 5 forks placed between them; eating requires holding both the left and right fork.
+<img src="/assets/images/comp3231/dining.png" alt="" width="50%" style="display:block;margin:1rem auto;"/>
+
+### **A Flawed Solution**
+
+* **Approach**: Each fork is represented by a semaphore initialized to 1. A philosopher runs:
+```c
+take_fork(left);
+take_fork(right);
+eat();
+put_fork(left);
+put_fork(right);
+```
+
+* **Failure (Deadlock)**: If all 5 philosophers pick up their left fork simultaneously, none can acquire their right fork. Everyone blocks permanently in a circular wait.
+
+### **The Correct Solution**
+
+Use an array of states (`THINKING`, `HUNGRY`, `EATING`), a mutex semaphore, and per-philosopher semaphores ($s[N]$ initialized to 0):
+
+* `take_forks(i)`:
+    1. Acquires `mutex` to safely inspect/modify state.
+    2. Sets `state[i] = HUNGRY`.
+    3. Calls `test(i)`, which checks if philosopher $i$ is `HUNGRY` and neither neighbor is `EATING`. If true, sets `state[i] = EATING` and calls `V(s[i])`.
+    4. Releases `mutex`.
+    5. Calls `P(s[i])`. If the forks were available, it passes through immediately; otherwise, it blocks safely.
+* `put_forks(i)`:
+    1. Acquires `mutex`.
+    2. Sets `state[i] = THINKING`.
+    3. Calls `test(LEFT)` and `test(RIGHT)` to wake up either waiting neighbor if their required forks just became free.
+    4. Releases `mutex`.
+
+## **Readers and Writers Problem**
+***
+
+Models concurrent access to a shared resource (such as a database or file system).
+* Readers: Multiple reader threads can read concurrently without conflict.
+* Writers: A writer thread requires strict exclusive access (no other writers and no readers can access the resource simultaneously).
+
+**The Semaphore Solution:**
+* `mutex` Semaphore (initialized to 1): Protects mutual exclusion when updating the shared `readcount` integer.
+* `wrt` Semaphore (initialized to 1): Controls exclusive access for writing to the database/resource.
+* Reader Logic:
+    * First reader to arrive (`readcount == 1`) calls `wait(wrt)` to lock out writers.
+    * Readers increment/decrement `readcount` inside the `mutex` critical section.
+    * Last reader to leave (`readcount == 0`) calls `signal(wrt)` to allow waiting writers to enter.
+* Writer Logic:
+    * Calls `wait(wrt)` before writing and `signal(wrt)` upon completion.
+
+**Trade off**: In this specific implementation (reader-preference), continuous arrivals of new readers will keep readcount > 0, causing waiting writers to starve indefinitely.
