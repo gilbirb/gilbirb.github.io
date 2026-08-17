@@ -53,7 +53,7 @@ User-mode accessible registers
 ***
 
 Branching and jumping have a branch delay slot
-    * The instruction after a branch or jump is always executed before the destination of jump
+* The instruction after a branch or jump is always executed before the destination of jump
 
 Example:
 ```assembly
