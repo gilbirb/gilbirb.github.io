@@ -16,6 +16,21 @@ body * {
     fill 0.3s ease;
 }
 
+/* Light mode: prose-zinc defaults to zinc-700 body text, which reads washed out.
+   Scoped to :not(.dark) so dark:prose-invert keeps its own palette. */
+html:not(.dark) .prose {
+  --tw-prose-body: #18181b;
+  --tw-prose-headings: #09090b;
+  --tw-prose-lead: #27272a;
+  --tw-prose-bold: #09090b;
+  --tw-prose-counters: #3f3f46;
+  --tw-prose-bullets: #71717a;
+  --tw-prose-quotes: #18181b;
+  --tw-prose-captions: #3f3f46;
+  --tw-prose-th-borders: #a1a1aa;
+  --tw-prose-td-borders: #d4d4d8;
+}
+
 /* Inline `code` — boxed chip instead of Tailwind Typography's backticks */
 .prose :not(pre) > code {
   background-color: #f0eee6;
