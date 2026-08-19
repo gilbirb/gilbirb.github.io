@@ -51,6 +51,7 @@ export const sections: NoteSection[] = [
       { slug: 'virtual-file-systems', title: 'Virtual File System' },
       { slug: 'buffering-caching-consistency', title: 'Buffering, Caching, and Consistency' },
       { slug: 'memory-management', title: 'Memory Management' },
+      { slug: 'virtual-memory', title: 'Virtual Memory' },
       { slug: 'multiprocessor-systems', title: 'Multiprocessor Systems' },
     ],
   },
