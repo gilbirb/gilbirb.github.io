@@ -60,7 +60,7 @@ Unused address regions simply hold `NULL` pointers at higher levels, allowing me
 <img src="/assets/images/comp3231/2l-pt.png" alt="" width="75%" style="display:block;margin:1rem auto;"/>
 
 
-### **Inverted & Hashed Page Tables***
+### **Inverted & Hashed Page Tables**
 ***
 
 As address spaces grow (especially in 64-bit architectures), normal multi-level page tables **take up too much memory** because they scale with the size of the virtual address space.
