@@ -110,3 +110,23 @@ Pros
 Cons
 * Thread creation and destruction, and blocking and unblocking threads requires kernel entry and exit.
     * More expensive than user-level equivalent
+
+## **Context Switch**
+***
+
+A context switch is the mechanism used by the operating system to save the execution state of the currently running process or thread and restore the state of a target process or thread so that execution can resume transparently without loss of data.
+
+When a Context Switch Occurs:
+* System calls: Mandatory if the system call blocks (e.g., waiting for I/O) or on exit().
+* Exceptions: Mandatory if an error occurs and the process cannot continue.
+* Interrupts: Triggered by hardware events, primarily the timer interrupt to implement preemptive multitasking.
+
+Step-by-Step Context Switch Mechanism (Kernel-Level / OS/161):
+1. **Enter Kernel Mode**: The CPU takes an interrupt, system call, or exception, switching the Stack Pointer (`SP`) from the user stack to the thread's kernel stack.
+2. **Push Trapframe**: The OS pushes a trapframe (user-level context, including user-level `PC` and `SP`) onto the kernel stack.
+3. **Run C Kernel Code**: C kernel handlers run to process the event, building up a C activation stack.
+4. **Initiate Thread Switch**: The scheduler decides to switch execution and calls `thread_switch()`, which selects the next thread from the run queue.
+5. **Save Callee-Saved Registers (`switchframe`)**: Inside `switchframe_switch`, the kernel pushes the registers required by the C calling convention onto the current kernel stack (`s0–s6`, `s8`/`fp`, `gp`, `ra`, 40 bytes total on MIPS).
+6. **Swap Stack Pointers**: The current kernel stack pointer (`sp`) is saved into the old thread's control block (`a0`), and the new thread's saved `sp` is loaded from `a1`.
+7. **Restore Context**: The new thread’s registers are popped from its kernel stack, and execution returns via `j ra`.
+8. **Return to User Mode**: The new thread unwinds its C activation stack, restores the user-mode trapframe, and returns to user space with its restored user `PC` and `SP`.

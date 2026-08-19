@@ -128,6 +128,7 @@ The diagram (how processes flow through the CPU):
 * Pause - the process is removed from the CPU before finishing and sent back to the queue (Running → Ready, e.g. its timeslice ended). The loop shows it'll wait for another turn.
 
 **Managing blocked processes**
+
 Process is waiting on some event/resource
 * Instead of keeping blocked processes in a single unorganized pool, the OS maintains dedicated queues for specific events (e.g., Event 1 Queue, Event 2 Queue, Disk I/O Queue).
 * Moving a waiting process off the CPU allows the scheduler to dispatch another process from the Ready Queue, keeping processor utilization high.
