@@ -1,5 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { getNotes } from "../../data/notes";
+
+const notes = getNotes("/courses/comp3231");
 
 
 ---
@@ -17,20 +20,9 @@ import Layout from "../../layouts/Layout.astro";
    -->
   <h2 class="dark:text-zinc-300">Course Notes</h2>
   <ul class="dark:text-zinc-300">
-    <li><a href="os-overview" class="text-inherit">Operating Systems Overview</a></li>
-    <li><a href="process-threads" class="text-inherit">Processes & Threads</a></li>
-    <li><a href="concurrency-synchronisation" class="text-inherit">Concurrency & Synchronisation</a></li>
-    <li><a href="syscalls" class="text-inherit">System Calls</a></li>
-    <li><a href="mips-r3000" class="text-inherit">MIPS R3000</a></li>
-    <li><a href="process-threads-continued" class="text-inherit">Process & Threads Continued</a></li>
-    <li><a href="deadlocks" class="text-inherit">Deadlocks</a></li>
-    <li><a href="file-system-interface" class="text-inherit">File System Interface</a></li>
-    <li><a href="file-system-implementation" class="text-inherit">File System Implementation</a></li>
-    <li><a href="virtual-file-systems" class="text-inherit">Virtual File System</a></li>
-    <li><a href="buffering-caching-consistency" class="text-inherit">Buffering, Caching, and Consistency</a></li>
-    <li><a href="memory-management" class="text-inherit">Memory Management</a></li>
-    <!-- <li><a href="virtual-memory" class="text-inherit">Virtual Memory</a></li> -->
-    <li><a href="multiprocessor-systems" class="text-inherit">Multiprocessor Systems</a></li>
+    {notes.map((note) => (
+      <li><a href={note.slug} class="text-inherit">{note.title}</a></li>
+    ))}
   </ul>
 
   <p class="mt-12 text-sm text-zinc-500 dark:text-zinc-400 border-t border-zinc-300 dark:border-zinc-700 pt-4">

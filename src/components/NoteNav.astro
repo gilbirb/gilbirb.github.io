@@ -1,0 +1,87 @@
+---
+import { getNeighbours } from '../data/notes';
+
+const { prev, next } = getNeighbours(Astro.url.pathname);
+---
+
+{
+  (prev || next) && (
+    <div class="not-prose mt-16 pt-6 border-t border-zinc-300 dark:border-zinc-700">
+    <nav
+      class="flex flex-col sm:flex-row gap-3 sm:gap-4"
+      aria-label="Note navigation"
+    >
+      {prev ? (
+        <a
+          href={prev.href}
+          rel="prev"
+          class="group flex-1 min-w-0 flex items-center gap-3 rounded-lg border border-zinc-300 dark:border-zinc-700 px-4 py-3 no-underline hover:border-zinc-500 dark:hover:border-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800/60"
+        >
+          <span aria-hidden="true" class="text-zinc-500 dark:text-zinc-400 shrink-0">
+            &#8592;
+          </span>
+          <span class="min-w-0">
+            <span class="block text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              Previous
+            </span>
+            <span class="block truncate text-sm font-medium text-zinc-800 dark:text-zinc-200">
+              {prev.title}
+            </span>
+          </span>
+        </a>
+      ) : (
+        <span class="flex-1 hidden sm:block" />
+      )}
+
+      {next ? (
+        <a
+          href={next.href}
+          rel="next"
+          class="group flex-1 min-w-0 flex items-center justify-end gap-3 rounded-lg border border-zinc-300 dark:border-zinc-700 px-4 py-3 no-underline hover:border-zinc-500 dark:hover:border-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800/60"
+        >
+          <span class="min-w-0 text-right">
+            <span class="block text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              Next
+            </span>
+            <span class="block truncate text-sm font-medium text-zinc-800 dark:text-zinc-200">
+              {next.title}
+            </span>
+          </span>
+          <span aria-hidden="true" class="text-zinc-500 dark:text-zinc-400 shrink-0">
+            &#8594;
+          </span>
+        </a>
+      ) : (
+        <span class="flex-1 hidden sm:block" />
+      )}
+    </nav>
+    </div>
+  )
+}
+
+<script>
+  // Left/right arrow keys jump between notes, matching the NoteNav buttons.
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+    // Don't steal the keys while typing or from anything already focused.
+    const active = document.activeElement as HTMLElement | null;
+    if (
+      active &&
+      (active.isContentEditable ||
+        ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName))
+    ) {
+      return;
+    }
+
+    const rel = event.key === 'ArrowLeft' ? 'prev' : 'next';
+    const link = document.querySelector<HTMLAnchorElement>(
+      `nav[aria-label="Note navigation"] a[rel="${rel}"]`
+    );
+    if (!link) return;
+
+    event.preventDefault();
+    window.location.href = link.href;
+  });
+</script>

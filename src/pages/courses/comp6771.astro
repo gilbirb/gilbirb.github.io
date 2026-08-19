@@ -1,5 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { getNotes } from "../../data/notes";
+
+const notes = getNotes("/courses/comp6771");
 
 
 ---
@@ -9,7 +12,9 @@ import Layout from "../../layouts/Layout.astro";
 
   <h2 class="dark:text-zinc-300">Course Notes</h2>
   <ul class="dark:text-zinc-300">
-    <li><a href="class-types" class="text-inherit">Class Types</a></li>
+    {notes.map((note) => (
+      <li><a href={note.slug} class="text-inherit">{note.title}</a></li>
+    ))}
   </ul>
 
   <p class="mt-12 text-sm text-zinc-500 dark:text-zinc-400 border-t border-zinc-300 dark:border-zinc-700 pt-4">
