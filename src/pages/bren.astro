@@ -1,37 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import fs from 'fs';
 
+const brens = fs.readdirSync('public/assets/images/bren');
 
 ---
 
 <Layout title="Courses">
   <div class="grid gap-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-1">
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren1.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren2.jpeg" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren3.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren4.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren5.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren6.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren7.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren8.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
-    <div class="aspect-square overflow-hidden">
-      <img src="/assets/images/bren/bren9.png" alt="" class="w-full h-full object-cover mt-0"/>
-    </div>
+    {brens.map(b => (
+      <div class="aspect-square overflow-hidden">
+        <img src={`/assets/images/bren/${b}`} alt="" class="w-full h-full object-cover mt-0"/>
+      </div>
+    ))}
   </div>
 </Layout>
