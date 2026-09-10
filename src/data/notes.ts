@@ -53,6 +53,7 @@ export const sections: NoteSection[] = [
       { slug: 'memory-management', title: 'Memory Management' },
       { slug: 'virtual-memory', title: 'Virtual Memory' },
       { slug: 'virtual-memory-optimisation', title: 'Virtual Memory Optimisation' },
+      { slug: 'virtualisation', title: 'Virtualisation' },
       { slug: 'multiprocessor-systems', title: 'Multiprocessor Systems' },
     ],
   },
