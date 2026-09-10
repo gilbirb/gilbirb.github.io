@@ -158,3 +158,28 @@ Categories outside the 4 core:
 * Using Multiple Cloud Providers aka multi-cloud.
 * Example: Azure Arc, Google's Anthos
 
+## **Benefits of Cloud**
+***
+
+* Agility
+    * Increase speed and agility
+* Cost-effective
+    * You **pay for what you consume**, no up-front cost. On-demand pricing or pay-as-you-go with thousands of customers sharing the cost of the resources.
+    * Trade capital expense for variable expense
+* Economy of scale
+    * Benefit from massive economies of scale
+* Global reach
+    * Go global in minutes. Launch workloads **anywhere in the world**, just choose a region.
+* Security
+    * Cloud providers takes care of physical security. **Cloud services can be secure by default** or you have the ability to configure access down to a granular level.
+* Reliability
+    * Stop spending money on running and maintaining data centers
+    * Data backup, disaster recovery, data replication, and fault tolerance.
+* High Availability
+* Scalability
+    * Benefit from massive economies of scale
+    * Increase or decrease resources and services based on demand
+* Elasticity
+    * **Automate** scaling during spikes and drop in demand
+* Current
+    * The underlying hardware and managed software is patched, upgraded, and replaced by the cloud provider without interruption to you.
