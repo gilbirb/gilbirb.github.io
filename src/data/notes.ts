@@ -82,6 +82,13 @@ export const sections: NoteSection[] = [
       { slug: 'unsafe-rust', title: 'Unsafe Rust' },
     ],
   },
+  {
+    base: '/courses/self-study/aws-ccp',
+    notes: [
+      { slug: 'aws-ccp/cloud-computing', title: 'Cloud Computing' },
+      { slug: 'aws-ccp/cloud-concepts', title: 'Cloud Concepts' },
+    ],
+  },
 ];
 
 export function getNotes(base: string): Note[] {

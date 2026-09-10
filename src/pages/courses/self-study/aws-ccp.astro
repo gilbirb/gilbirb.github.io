@@ -1,0 +1,26 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import { getNotes } from "../../../data/notes";
+
+const notes = getNotes("/courses/self-study/aws-ccp");
+
+
+---
+
+<Layout title="AWS Cloud Practicioner">
+  <h1 class="text-4xl font-bol dark:text-zinc-300">AWS - Cloud Practicioner</h1>
+
+  <h2 class="dark:text-zinc-300">Notes</h2>
+  <ul class="dark:text-zinc-300">
+    {notes.map((note) => (
+      <li><a href={note.slug} class="text-inherit">{note.title}</a></li>
+    ))}
+  </ul>
+
+  <!-- <p class="mt-12 text-sm text-zinc-500 dark:text-zinc-400 border-t border-zinc-300 dark:border-zinc-700 pt-4">
+    These are personal study notes for COMP6771 (Advanced C++ Programming) at UNSW. Content is
+    derived from course lectures and materials by their respective authors (e.g. Hayden Smith / UNSW) and reproduced here for study purposes under fair dealing. Diagrams
+    are taken from course slides and remain the property of their original authors. Plz dont sue me.
+  </p> -->
+
+</Layout>
