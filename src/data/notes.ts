@@ -90,6 +90,12 @@ export const sections: NoteSection[] = [
       { slug: 'cloud-concepts', title: 'Cloud Concepts' },
     ],
   },
+  {
+    base: '/courses/comp3331',
+    notes: [
+      { slug: 'intro', title: 'Introduction' },
+    ],
+  },
 ];
 
 export function getNotes(base: string): Note[] {
