@@ -96,6 +96,12 @@ export const sections: NoteSection[] = [
       { slug: 'intro', title: 'Introduction' },
     ],
   },
+    {
+    base: '/courses/comp4920',
+    notes: [
+      { slug: 'ethics-in-computing', title: 'Ethics in Computing' },
+    ],
+  },
 ];
 
 export function getNotes(base: string): Note[] {
