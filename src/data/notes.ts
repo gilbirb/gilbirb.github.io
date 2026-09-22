@@ -100,6 +100,8 @@ export const sections: NoteSection[] = [
     base: '/courses/comp4920',
     notes: [
       { slug: 'ethics-in-computing', title: 'Ethics in Computing' },
+      { slug: 'human-centred', title: 'Human Centred Computing' },
+      { slug: 'research-ethics', title: 'Research Ethics' },
     ],
   },
 ];
