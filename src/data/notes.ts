@@ -102,6 +102,8 @@ export const sections: NoteSection[] = [
       { slug: 'ethics-in-computing', title: 'Ethics in Computing' },
       { slug: 'human-centred', title: 'Human Centred Computing' },
       { slug: 'research-ethics', title: 'Research Ethics' },
+      { slug: 'digital-systems-moral-responsibility', title: 'Digital Systems and Moral Responsibility' },
+      { slug: 'virtue-ethics', title: 'Virtue Ethics' },
     ],
   },
 ];
