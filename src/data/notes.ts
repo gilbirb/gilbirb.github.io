@@ -94,6 +94,8 @@ export const sections: NoteSection[] = [
     base: '/courses/comp3331',
     notes: [
       { slug: 'intro', title: 'Introduction' },
+      { slug: 'dns', title: 'Domain Name System (DNS)' },
+      { slug: 'mcp', title: 'Model Context Protocol (MCP)' },
     ],
   },
     {
