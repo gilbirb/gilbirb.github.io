@@ -94,6 +94,7 @@ export const sections: NoteSection[] = [
     base: '/courses/comp3331',
     notes: [
       { slug: 'intro', title: 'Introduction' },
+      { slug: 'network-core', title: 'Network Core' },
       { slug: 'http', title: 'Hypertext Transfer Protocol (HTTP)' },
       { slug: 'smtp', title: 'Simple Mail Transfer Protocol (SMTP)' },
       { slug: 'dns', title: 'Domain Name System (DNS)' },
