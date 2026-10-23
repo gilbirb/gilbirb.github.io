@@ -1,6 +1,6 @@
 ---
 layout: ../../../layouts/Layout.astro
-title: COMP3331 - Introduction
+title: COMP3331 - Domain Name System (DNS)
 ---
 
 ## **Domain Name System (DNS)**
