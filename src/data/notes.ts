@@ -95,6 +95,7 @@ export const sections: NoteSection[] = [
     notes: [
       { slug: 'intro', title: 'Introduction' },
       { slug: 'dns', title: 'Domain Name System (DNS)' },
+      { slug: 'cdn', title: 'Content Distribution Network (CDN)' },
       { slug: 'mcp', title: 'Model Context Protocol (MCP)' },
     ],
   },

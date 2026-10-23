@@ -39,3 +39,4 @@ Weaknesses:
 Be Cautious When Judging Morality: In Virtue Ethics, moral worth depends on both a person's actions and their inner motivations
 
 The Problem of Perception: You cannot directly observe or measure someone else's true motivations with your normal physical senses. Discerning genuine character requires subtle emotional sensitivity and intuition, making moral judgements about others delicate and prone to error.
+
